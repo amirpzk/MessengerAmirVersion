@@ -22,6 +22,7 @@ public class MultithreadedClient extends Thread {
     @Override
     public void run() {
         try {
+
             dos = new DataOutputStream(clientSocket.getOutputStream());
             dis = new DataInputStream(clientSocket.getInputStream());
 
@@ -47,10 +48,10 @@ public class MultithreadedClient extends Thread {
         }
     }
 
-    protected void sendStringToServer(String text) {
+    public void sendStringToServer(String text) {
         try {
-            dos.writeUTF(text);
             dos.flush();
+            dos.writeUTF(text);
         } catch (IOException e) {
             e.printStackTrace();
         }

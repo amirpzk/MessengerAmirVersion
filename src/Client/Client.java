@@ -14,7 +14,7 @@ public class Client implements ImpClient {
     public void startClient() {
         try
         {
-            this.clientSocket = new Socket("127.0.0.1",6969);
+            this.clientSocket = new Socket("127.0.0.1",1343);
             this.clientThread = new MultithreadedClient(clientSocket,this);
             clientThread.start();
 
@@ -23,6 +23,10 @@ public class Client implements ImpClient {
         {
 
         }
+    }
+
+    public MultithreadedClient getClientThread(){
+        return clientThread;
     }
 
     private void listenForInput(String input){

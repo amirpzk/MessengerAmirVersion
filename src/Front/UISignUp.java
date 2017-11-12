@@ -1,7 +1,9 @@
 package Front;
 
-import Controller.Controller;
-import Domain.User;
+import Client.Client;
+import Client.MultithreadedClient;
+import Server.Controller;
+import Server.MultithreadedServer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,17 +14,16 @@ import java.awt.event.ActionListener;
  * Created by amirpez on 11/11/17.
  */
 public class UISignUp extends JFrame {
-    public class UiRegister extends JFrame {
         private JFrame frame;
         private JTextField tfUsername;
         private JTextField tfName;
         private JButton btnSubmit;
         private JButton btnLogin;
-        private Controller controller ;
+        private Client c1;
 
-
-        public UiRegister() {
-            this.controller = new Controller();
+        public UISignUp() {
+            System.out.println("HELLOCHANCHI");
+            this.c1 = new Client();
             this.frame = new JFrame();
             this.frame.setSize(300, 100);
             this.frame.setTitle("UiRegister");
@@ -42,10 +43,13 @@ public class UISignUp extends JFrame {
             this.frame.add(btnSubmit);
             this.frame.add(btnLogin);
 
+            c1.startClient();
+            MultithreadedClient client = c1.getClientThread();
+
             btnSubmit.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    controller.signup(tfUsername.getText(),tfName.getText());
+                    client.sendStringToServer("signup#"+getUsername()+"#"+getName());
                 }
             });
 
@@ -60,5 +64,5 @@ public class UISignUp extends JFrame {
             return tfName.getText();
         }
     }
-}
+
 
