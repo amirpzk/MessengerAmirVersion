@@ -57,6 +57,25 @@ public class MultithreadedClient extends Thread {
         }
     }
 
+    public boolean getLoginAccesFromServer(){
+        boolean isTrue = false ;
+        while (true){
+            try {
+                System.out.println("before begayi");
+                System.out.println(dis.readUTF());
+                String iisTrue = dis.readUTF();
+                System.out.println("after begayi");
+                if ( iisTrue.equalsIgnoreCase("true")){
+                    isTrue = true;
+                }
+                return isTrue ;
+            } catch (IOException e) {
+                System.out.println("CHANCHI IS HERE");
+                e.printStackTrace();
+            }
+        }
+    }
+
     protected void close() {
         try {
             dis.close();

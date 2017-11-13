@@ -21,9 +21,8 @@ public class UISignUp extends JFrame {
         private JButton btnLogin;
         private Client c1;
 
-        public UISignUp() {
-            System.out.println("HELLOCHANCHI");
-            this.c1 = new Client();
+        public UISignUp(Client c) {
+            this.c1 = c;
             this.frame = new JFrame();
             this.frame.setSize(300, 100);
             this.frame.setTitle("UiRegister");
@@ -50,6 +49,13 @@ public class UISignUp extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     client.sendStringToServer("signup#"+getUsername()+"#"+getName());
+                }
+            });
+
+            btnLogin.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    UiSignin uiSignin = new UiSignin(c1);
                 }
             });
 

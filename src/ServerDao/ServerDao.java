@@ -3,9 +3,7 @@ package ServerDao;
 import Domain.User;
 import Server.MultithreadedServer;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.util.HashMap;
 
 /**
@@ -31,6 +29,20 @@ public class ServerDao {
             System.out.println("PROBLEM <> ServerDao >> storeInFile");
         }
 
+    }
+
+    public Object readOnFile(String username){
+        try
+        {
+            FileInputStream f = new FileInputStream("/Users/amirpez/Desktop/"+username+".ser");
+            ObjectInputStream oi = new ObjectInputStream(f);
+            return oi.readObject();
+        }
+        catch (Exception e)
+        {
+            System.out.println("PROBLEM <><><> ServerDao >>> readOnFile");
+            return null;
+        }
     }
 
     public HashMap<String,MultithreadedServer> getUsersAndConnections(){

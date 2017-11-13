@@ -1,5 +1,6 @@
 package Server;
 
+import Client.MultithreadedClient;
 import Domain.User;
 import ServerDao.ServerDao;
 
@@ -22,7 +23,7 @@ public class Server implements ImpServer {
     private static List<MultithreadedServer> connections = new ArrayList<>();
     private MultithreadedServer serverThread;
 
-    HashMap<String ,MultithreadedServer> connectionsUsers = serverDao.getUsersAndConnections();
+    static HashMap<String ,MultithreadedServer> connectionsUsers = new HashMap<>();
 
     @Override
     public void startServer(){
@@ -55,17 +56,35 @@ public class Server implements ImpServer {
     }
 
     public void signUp(String username,String name){
+        System.out.println("amir1");
         User user = new User(username,name);
+        System.out.println("amir2");
         try
         {
-            System.out.println("CHANCHINCHANDICHANDYFUIEBRENWRERO");
+            System.out.println("amir3");
             serverDao.storeInFile(user);
+            System.out.println("amir4");
         }
         catch (Exception e)
         {
-            System.out.println("KONETON PARAST");
+            System.out.println("PROBLEM <><><> Server.java <><>< signUp ><><>");
         }
 
+    }
+
+    public void signIn(String username){
+        System.out.println("SingInServer1");
+        if (serverDao.readOnFile(username)!=null)
+        {
+            User user = (User)serverDao.readOnFile(username);
+            System.out.println("user synced *.*.*.* [Server]><><><[signIn]");
+            connectionsUsers.put(user.getUsername(),serverThread);
+            serverThread.sendLoginAccesToClient(true);
+        }
+        else
+        {
+            serverThread.sendLoginAccesToClient(false);
+        }
     }
 
 

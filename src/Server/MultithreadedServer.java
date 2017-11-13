@@ -1,5 +1,7 @@
 package Server;
 
+import com.sun.tools.javah.Util;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -16,18 +18,15 @@ public class MultithreadedServer extends Thread{
     private DataInputStream dis;
     private DataOutputStream dos;
     private boolean shouldRun = true;
-    private Controller controller = new Controller();
+    private Controller controller = new Controller(server);
 
     public MultithreadedServer(Server server , Socket socket){
         super("ServerConnectionThread");
-        System.out.println("22");
         this.clientSocket = socket;
-        System.out.println("33");
         this.server = server;
-        System.out.println("44");
         this.connections = server.getConnections();
     }
-
+//
 //    public void sendStringToClient(String msg){
 //        try
 //        {
@@ -75,22 +74,42 @@ public class MultithreadedServer extends Thread{
         {
             System.out.println("ERROR <><><><><>< MultiThreadedServer >>> run()");
             e.printStackTrace();
+            System.exit(0);
         }
     }
 
+    public void getFromClient() {
 
-    public void getFromClient(){
-
-
+                    try
+                    {
                 while (true)
                 {
-                    try {
-                        controller.identifiear(dis.readUTF());
-                    } catch (IOException e) {
+                    System.out.println("AAaaa");
+                    controller.identifiear(dis.readUTF());
+                    System.out.println("bbbbb");
+                }
+                    }
+                    catch (IOException e)
+                    {
                         System.out.println("Problem , MultiThreadedServer >>> getFromClient");
                         e.printStackTrace();
                     }
-                }
+
             }
+
+    public void sendLoginAccesToClient(boolean isRight){
+        try {
+            while (true){
+                System.out.println("sowt");
+            if ( isRight ){
+                dos.writeUTF("true");}
+            else {
+                dos.writeUTF("false");
+            }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
 
